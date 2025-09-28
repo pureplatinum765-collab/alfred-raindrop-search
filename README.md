@@ -58,6 +58,8 @@ To use the AI-powered features, you need to configure the following settings in 
 - **AI Summaries**: Set `ai_summaries` to `true` to enable AI-generated summaries of web pages when adding bookmarks
 - The AI search functionality (type **rai**) is automatically available once you have configured your Perplexity API key
 
+For detailed setup instructions and troubleshooting, see the [AI Setup Guide](AI_SETUP_GUIDE.md).
+
 ## Availability
 You can download the newest version of this workflow from GitHub here:
 https://github.com/westerlind/alfred-raindrop-search/releases
