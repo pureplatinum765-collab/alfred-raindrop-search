@@ -135,6 +135,31 @@ func set_title(title string) {
 		Var("bookmark_info", string(selection_json)).
 		Arg().
 		Var("goto", "save now")
+	
+	// Add AI-powered summary if configured
+	perplexity_api_key := wf.Config.Get("perplexity_api_key", "")
+	if perplexity_api_key != "" && wf.Config.Get("ai_summaries", "false") == "true" {
+		if url := selection_map["url"]; url != "" {
+			go func() {
+				// Generate summary asynchronously and cache it
+				summary, err := ai_summarize_bookmark(url, perplexity_api_key)
+				if err == nil && summary != "" {
+					// Cache the summary for later use
+					cache_file := wf.CacheDir() + "/ai_summary_" + strings.ReplaceAll(url, "/", "_") + ".txt"
+					os.WriteFile(cache_file, []byte(summary), 0644)
+				}
+			}()
+			
+			// Check if we have a cached summary
+			cache_file := wf.CacheDir() + "/ai_summary_" + strings.ReplaceAll(url, "/", "_") + ".txt"
+			if cached_summary, err := os.ReadFile(cache_file); err == nil {
+				wf.NewItem("🤖 AI Summary").
+					Subtitle(string(cached_summary)).
+					Valid(false).
+					Icon(&aw.Icon{Value: "icon.png", Type: ""})
+			}
+		}
+	}
 }
 
 func set_tags(tags string) {
@@ -169,6 +194,25 @@ func set_tags(tags string) {
 	} else {
 		// Get tag list from Raindrop.io and cache it
 		get_tags(token, "check")
+		
+		// Add AI-powered tag suggestions if configured
+		perplexity_api_key := wf.Config.Get("perplexity_api_key", "")
+		if perplexity_api_key != "" && wf.Config.Get("ai_tag_suggestions", "false") == "true" {
+			var bookmark_info_map map[string]string
+			json.Unmarshal([]byte(bookmark_info), &bookmark_info_map)
+			
+			if title := bookmark_info_map["title"]; title != "" {
+				excerpt := get_meta_description(bookmark_info_map["url"])
+				ai_tags, err := ai_suggest_tags(title, excerpt, bookmark_info_map["url"], perplexity_api_key)
+				if err == nil && len(ai_tags) > 0 {
+					wf.NewItem("🤖 AI Suggestions: " + strings.Join(ai_tags, ", ")).
+						Subtitle("Press enter to use these AI-suggested tags").
+						Arg(strings.Join(ai_tags, ", ")).
+						Valid(true).
+						Icon(&aw.Icon{Value: "tag.png", Type: ""})
+				}
+			}
+		}
 	}
 
 	tag_list := ""

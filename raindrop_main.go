@@ -79,6 +79,15 @@ func run() {
 	if f == "set_tags" {
 		set_tags(tags)
 	}
+	if f == "ai_search" {
+		token := read_token()
+		if token.Error != "" {
+			init_auth()
+			wf.SendFeedback()
+			return
+		}
+		ai_search(query, token, descr_in_list)
+	}
 
 	wf.SendFeedback()
 }

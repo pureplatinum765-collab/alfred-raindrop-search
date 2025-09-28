@@ -18,13 +18,20 @@ You can also use this workflow to add bookmarks to [Raindrop.io](https://raindro
   - To manually refresh the local cache, open Alfred and type **rr**.
   - Other than full-text search, all the same features are available in the local search.
 - As both of the search modes are available in parallel, you can, for example, assign them to different keyboard shortcuts and use the one that is better for the current purpose (either with full-text search or faster)
+- **NEW: AI-Powered Search** - For intelligent, context-aware bookmark search, open Alfred, type **rai**, space, and then your natural language query. This uses Perplexity AI to understand your intent and find the most relevant bookmarks.
+  - Ask questions like "Find articles about machine learning" or "Show me productivity tools for developers"
+  - AI analyzes your bookmark collection and provides intelligent matching with explanations
+  - Requires a Perplexity API key (configure in workflow settings)
+  - Works alongside regular search - use whichever is best for your current need
 - If you prefer the faster local search over the full-text search capability, you can change the local search to use **r** in the workflow view (look for the green objects there) to keep it as easily available as possible. 
 - To add a new bookmark to Raindrop.io, there are two ways to get the actual bookmark you want to add into the workflow.
     - The primary way is to first make sure that you have the webpage you want to add opened in a browser and that it is the frontmost window, and then open Alfred and type **ra** followed by a space.
     - The alternative way, which only works if the frontmost application is not one of the supported browsers (as the primary method will be used then), is that you first copy an address that you want to add as a bookmark, and then open Alfred and type **ra** followed by a space.
   - In the first step you then choose a collection for the new bookmark, and you can either type to search for the collection you want to add the new bookmark to or just select one in the list. Hold the cmd-key to save when you select the collection, and skip setting a custom title or adding tags.
   - In the second step you get to change the title that the bookmark is saved with. Hold the cmd-key to save and skip the tag adding step.
+    - **AI Enhancement**: When enabled, the workflow can show AI-generated summaries of web pages to help you understand the content before saving
   - In the third step you get to add tags to your new bookmark. You can either simply type them out, or select from a list of tags that matches what you have started to type. Separate multiple tags with comma. Hold the cmd-key to save when selecting a tag in the list, and skip the option of adding more tags.
+    - **AI Enhancement**: When enabled, the workflow can suggest relevant tags automatically based on the webpage content using AI analysis
   - The Firefox support for adding bookmarks was made possible with the help of deanishe's great workflow Firefox Assistant, which needs to be installed in Alfred for the Firefox support to function. The workflow will tell you about this when it is needed and direct you to instructions about what you need to do, but you can also get it in advance here: https://github.com/deanishe/alfred-firefox
 - If the workflow is not authenticated with Raindrop.io when you initiate it, you will be taken to the authentication process.
 - You can log out from Raindrop.io by opening Alfred and typing rlogout
@@ -43,6 +50,13 @@ Safari, Chrome, Firefox, Edge, Brave, Vivaldi, Opera, Arc, Orion, Sidekick, Chro
 ## Settings
 - To set keyboard shortcuts, go to the "Search Raindrop.io" workflow in the Alfred preferences and look in the top left corner where you can set keyboard shortcuts for searching Raindrop.io, searching the local cache, or for adding bookmarks.
 - To change other settings, go to the "Search Raindrop.io" workflow in the Alfred preferences, and click the "Configure Workflow" button above the workflow view, where you can change the settings and se descriptions of what each setting is doing.
+
+### AI Features Configuration
+To use the AI-powered features, you need to configure the following settings in the workflow:
+- **Perplexity API Key**: Get your API key from [Perplexity AI](https://docs.perplexity.ai/docs/getting-started) and add it to the `perplexity_api_key` workflow variable
+- **AI Tag Suggestions**: Set `ai_tag_suggestions` to `true` to enable AI-powered tag suggestions when adding bookmarks
+- **AI Summaries**: Set `ai_summaries` to `true` to enable AI-generated summaries of web pages when adding bookmarks
+- The AI search functionality (type **rai**) is automatically available once you have configured your Perplexity API key
 
 ## Availability
 You can download the newest version of this workflow from GitHub here:
